@@ -57,7 +57,7 @@ export default function Terminal() {
   ]);
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<string[]>([]);
-  const [histIdx, setHistIdx] = useState(-1);
+  const histIdx = useRef(-1);
   const outputRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -65,7 +65,7 @@ export default function Terminal() {
     const trimmed = cmd.trim().toLowerCase();
     if (!trimmed) return;
     setHistory((h) => [trimmed, ...h]);
-    setHistIdx(-1);
+    histIdx.current = -1;
 
     if (trimmed === "clear") {
       setLines([]);
@@ -80,18 +80,14 @@ export default function Terminal() {
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") { run(input); setInput(""); }
     if (e.key === "ArrowUp") {
-      setHistIdx((i) => {
-        const next = Math.min(i + 1, history.length - 1);
-        setInput(history[next] || "");
-        return next;
-      });
+      const next = Math.min(histIdx.current + 1, history.length - 1);
+      histIdx.current = next;
+      setInput(history[next] || "");
     }
     if (e.key === "ArrowDown") {
-      setHistIdx((i) => {
-        const next = Math.max(i - 1, -1);
-        setInput(next === -1 ? "" : history[next]);
-        return next;
-      });
+      const next = Math.max(histIdx.current - 1, -1);
+      histIdx.current = next;
+      setInput(next === -1 ? "" : history[next]);
     }
   };
 

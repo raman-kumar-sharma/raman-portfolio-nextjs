@@ -13,13 +13,12 @@ interface Props {
   onThemeChange: (t: string) => void;
 }
 
-export default function Header({ currentTheme, onThemeChange }: Props) {
+export default function Header({ onThemeChange }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
-    const links = document.querySelectorAll(".nav-list a");
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {

@@ -50,8 +50,8 @@ export default function Experience() {
           <div className="projects-container">
             <h5>🚀 Key Achievements:</h5>
             {[
-              { title: "Repso Live Streaming", tag: "WebRTC", desc: <>Low-latency signaling backend for WebRTC with <strong>500+ active rooms</strong>, TURN relay fallback, and admin monitoring dashboard.</> },
-              { title: "Navya Edu LMS", tag: "RBAC", desc: "Scalable LMS with RBAC (admin/teacher/student), secure content delivery, and React admin panel for course management." },
+              { title: "Live Streaming Platform", tag: "WebRTC", desc: <>Low-latency signaling backend for WebRTC with <strong>500+ active rooms</strong>, TURN relay fallback, and admin monitoring dashboard.</> },
+              { title: "Education LMS", tag: "RBAC", desc: "Scalable LMS with RBAC (admin/teacher/student), secure content delivery, and React admin panel for course management." },
               { title: "API Security Hardening", tag: "JWT + OAuth2", desc: "Implemented rate limiting, CORS policies, input validation, and structured logging — significantly reduced MTTR." },
             ].map((p) => (
               <div key={p.title} className="inner-project">

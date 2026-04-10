@@ -3,7 +3,7 @@ import { useEffect } from "react";
 
 export default function Toast() {
   useEffect(() => {
-    (window as any).showToast = (msg: string) => {
+    (window as Window & { showToast?: (msg: string) => void }).showToast = (msg: string) => {
       const toast = document.getElementById("toast");
       if (!toast) return;
       toast.textContent = msg;

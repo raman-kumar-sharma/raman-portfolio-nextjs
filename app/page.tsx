@@ -4,7 +4,6 @@ import CanvasBackground from "@/components/CanvasBackground";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Skills from "@/components/Skills";
-import Achievements from "@/components/Achievements";
 import Timeline from "@/components/Timeline";
 import Experience from "@/components/Experience";
 import Projects from "@/components/Projects";
@@ -19,12 +18,12 @@ import HireMe from "@/components/HireMe";
 import GlobalEffects from "@/components/GlobalEffects";
 
 export default function Home() {
-  const [theme, setTheme] = useState("theme-future");
-
-  useEffect(() => {
-    const saved = localStorage.getItem("portfolio-theme");
-    if (saved) setTheme(saved);
-  }, []);
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("portfolio-theme") ?? "theme-future";
+    }
+    return "theme-future";
+  });
 
   const handleTheme = (t: string) => {
     setTheme(t);
@@ -44,7 +43,7 @@ export default function Home() {
       <main>
         <Hero />
         <Skills />
-        <Achievements />
+        {/* <Achievements /> */}
         <Timeline />
         <Experience />
         <Projects />

@@ -63,7 +63,7 @@ export default function GlobalEffects() {
     window.addEventListener("focus", onFocus);
 
     // Copy email
-    const showToast = (msg: string) => (window as any).showToast?.(msg);
+    const showToast = (msg: string) => (window as Window & { showToast?: (m: string) => void }).showToast?.(msg);
     document.querySelectorAll("a[href='mailto:mr.ramansharma2000@gmail.com']").forEach((el) => {
       el.addEventListener("click", () => {
         navigator.clipboard.writeText("mr.ramansharma2000@gmail.com").then(() => showToast("📋 Email copied to clipboard!")).catch(() => {});
@@ -84,7 +84,7 @@ export default function GlobalEffects() {
       const key = e.key.toLowerCase();
       if (shortcuts[key]) {
         shortcuts[key]();
-        if (key !== "?") showToast(({ g: "🐙 Opening GitHub...", l: "💼 Opening LinkedIn...", c: "📋 Email copied!", t: "💻 Opening Terminal...", h: "🏠 Going Home..." } as any)[key]);
+        if (key !== "?") showToast(({ g: "🐙 Opening GitHub...", l: "💼 Opening LinkedIn...", c: "📋 Email copied!", t: "💻 Opening Terminal...", h: "🏠 Going Home..." } as Record<string, string>)[key]);
       }
     };
     document.addEventListener("keydown", onKey);

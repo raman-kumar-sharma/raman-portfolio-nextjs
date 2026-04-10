@@ -12,8 +12,13 @@ export default function CanvasBackground({ theme }: Props) {
     if (!canvas) return;
     const ctx = canvas.getContext("2d")!;
     let width = 0, height = 0;
-    let particles: any[] = [];
-    let forestTrees: any[] = [];
+    type NeonParticle = { x: number; y: number; vx: number; vy: number; size: number; };
+    type ZenParticle = { x: number; y: number; vx: number; vy: number; size: number; phase: number; };
+    type LeafParticle = { x: number; y: number; vx: number; vy: number; size: number; angle: number; spin: number; color: string; };
+    type Particle = NeonParticle | ZenParticle | LeafParticle;
+    type Tree = { x: number; h: number; color: string; swaySpeed: number; swayOffset: number; };
+    let particles: Particle[] = [];
+    let forestTrees: Tree[] = [];
     const mouse = { x: null as number | null, y: null as number | null };
 
     function resize() {
@@ -58,7 +63,7 @@ export default function CanvasBackground({ theme }: Props) {
     function drawZen() {
       ctx.fillStyle = "#e9edc9"; ctx.fillRect(0, 0, width, height);
       ctx.fillStyle = "#606c38";
-      particles.forEach((p) => {
+      (particles as ZenParticle[]).forEach((p) => {
         p.x += p.vx; p.y += p.vy; p.phase += 0.05;
         if (p.x < 0) p.x = width; if (p.x > width) p.x = 0;
         if (p.y < 0) p.y = height; if (p.y > height) p.y = 0;
@@ -89,7 +94,7 @@ export default function CanvasBackground({ theme }: Props) {
         ctx.beginPath(); ctx.arc(sway, -t.h, 35, 0, Math.PI * 2); ctx.arc(sway - 25, -t.h + 15, 25, 0, Math.PI * 2); ctx.arc(sway + 25, -t.h + 15, 25, 0, Math.PI * 2); ctx.fill();
         ctx.restore();
       });
-      particles.forEach((p) => {
+      (particles as LeafParticle[]).forEach((p) => {
         p.x += p.vx; p.y += p.vy; p.angle += p.spin;
         if (p.y > height) p.y = -10; if (p.x > width) p.x = 0; if (p.x < 0) p.x = width;
         ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.angle);
